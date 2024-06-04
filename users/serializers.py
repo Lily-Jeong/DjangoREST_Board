@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User #User model
 from django.contrib.auth.password_validation import validate_password   # Django 기본 pw validation tool
+from django.contrib.auth import authenticate    # basic authentication function in Django.
 
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token   # Token model
@@ -39,3 +40,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         token = Token.objects.create(user=user)
         return user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
+    # write_only option: client->server deserializing (O) / server -> client serializing (X)
+
+    def validation(self, data):
+        user = authenticate(**data)
+        if user:
+            token = Token.objects.get(user=user)    #find user through token
+            return token
+        raise serializers.ValidationError(
+            {"error": "Unable to log in with provided credentials"}
+        )
