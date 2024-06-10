@@ -6,6 +6,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token   # Token model
 from rest_framework.validators import UniqueValidator   # prevent using same e-mail address.
 
+from .models import Profile
+
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -54,3 +56,8 @@ class LoginSerializer(serializers.Serializer):
         raise serializers.ValidationError(
             {"error": "Unable to log in with provided credentials"}
         )
+
+class ProfileSeralizer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ("nickname", "position", "subjects", "image")

@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.response import Response
 
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSeralizer
+from .models import Profile
 
 
 # Create your views here.
@@ -19,3 +20,7 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         token = serializer.validated_data   # Getting validate() function's return data which is Token.
         return Response({"token": token.key}, status=status.HTTP_200_OK)
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSeralizer
