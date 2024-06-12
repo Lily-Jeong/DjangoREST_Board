@@ -19,7 +19,7 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list' or 'retrieve':
             return PostSerializer
-        return PostSerializer
+        return PostCreateSerializer
 
     def perform_create(self, serializer):
         profile = Profile.objects.get(user=self.request.user)
