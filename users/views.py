@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.response import Response
 
-from .serializers import RegisterSerializer, LoginSerializer, ProfileSeralizer
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
 from .models import Profile
 
 
@@ -23,4 +23,4 @@ class LoginView(generics.GenericAPIView):
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSeralizer
+    serializer_class = ProfileSerializer
